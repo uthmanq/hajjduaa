@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title + ' · Hajj Duaa' : 'Hajj Duaa' %></title>
+  <meta name="description" content="A community where people share duaa requests and pilgrims on Hajj fulfill them." />
+  <meta name="theme-color" content="#0f6b53" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            arabic: ['Amiri', 'serif']
+          },
+          colors: {
+            sand: { 50:'#fbf8f3',100:'#f4ecdd',200:'#e8d8b6',300:'#d8be88',400:'#c9a45f',500:'#b78a45',600:'#9a6f37',700:'#7c5630',800:'#5e4126',900:'#3e2c1c'},
+            emerald: { 600:'#10866b', 700:'#0f6b53', 800:'#0b5742', 900:'#08402f' }
+          },
+          boxShadow: { soft: '0 6px 20px -8px rgba(15, 107, 83, 0.18)' }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/styles.css" />
+  <% if (typeof extraHead !== 'undefined') { %><%- extraHead %><% } %>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-sand-50 to-sand-100 text-sand-900 antialiased flex flex-col">
+  <header class="border-b border-sand-200/70 bg-sand-50/80 backdrop-blur sticky top-0 z-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 group">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-emerald-700 text-sand-50 shadow-soft">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </span>
+        <span class="font-semibold tracking-tight text-lg">Hajj Duaa</span>
+      </a>
+      <nav class="flex items-center gap-1 text-sm">
+        <a href="/search" class="px-3 py-1.5 rounded-lg hover:bg-sand-200/60 transition">Look up</a>
+        <a href="/stats" class="px-3 py-1.5 rounded-lg hover:bg-sand-200/60 transition">Community</a>
+      </nav>
+    </div>
+  </header>
+  <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">

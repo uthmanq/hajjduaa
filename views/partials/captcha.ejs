@@ -1,0 +1,8 @@
+<% if (turnstileSiteKey) { %>
+  <div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>"></div>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<% } else if (captchaEnabled) { %>
+  <p class="text-sm text-rose-700">Captcha is required but no site key is configured.</p>
+<% } else { %>
+  <p class="text-xs text-sand-600 italic">Captcha disabled in this environment.</p>
+<% } %>

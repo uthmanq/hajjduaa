@@ -1,0 +1,25 @@
+/* Tiny supplements to Tailwind. Most styling lives inline via Tailwind. */
+html { scroll-behavior: smooth; }
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Make sure right-to-left Arabic words inside left-to-right paragraphs
+   don't break layout. */
+.font-arabic { direction: rtl; unicode-bidi: isolate; }
+
+/* Slight visual polish for select dropdowns across browsers. */
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c5630' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.25rem;
+}
+
+/* Cloudflare turnstile widget centering inside forms. */
+.cf-turnstile { display: flex; justify-content: center; }

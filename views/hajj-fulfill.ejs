@@ -1,0 +1,126 @@
+<%- include('partials/head', { title: 'A duaa for you to carry' }) %>
+
+<div class="max-w-2xl mx-auto" id="fulfill-app" data-max="<%= maxDuaas %>" data-completed="<%= sess.completed %>">
+  <div class="flex items-center justify-between mb-6">
+    <p class="text-sm text-sand-600">
+      Pilgrim from <span class="font-semibold text-sand-800"><%= nameFor(sess.country) || sess.country %></span>
+    </p>
+    <p class="text-sm font-medium text-sand-800">
+      <span id="completedCount"><%= sess.completed %></span> / <%= maxDuaas %>
+    </p>
+  </div>
+
+  <div class="bg-white border border-sand-200 rounded-2xl p-6 sm:p-8 shadow-soft mb-6 min-h-[16rem] flex flex-col" id="duaaCard" data-id="<%= duaa.id %>" data-number="<%= duaa.request_number %>">
+    <div class="flex items-center justify-between mb-4">
+      <code class="text-xs font-mono text-sand-500 tracking-wider"><%= duaa.request_number %></code>
+      <% if (duaa.completion_count > 0) { %>
+        <span class="text-xs text-sand-600">Carried <%= duaa.completion_count %>×</span>
+      <% } else { %>
+        <span class="text-xs text-emerald-800 font-medium">First to carry this</span>
+      <% } %>
+    </div>
+    <p class="text-lg sm:text-xl leading-relaxed text-sand-900 whitespace-pre-wrap flex-1" id="duaaText"><%= duaa.duaa_text %></p>
+    <% if (duaa.requester_country) { %>
+      <p class="mt-6 text-sm text-sand-600">From <%= nameFor(duaa.requester_country) %></p>
+    <% } %>
+  </div>
+
+  <div class="flex gap-3" id="actions">
+    <button id="skipBtn" class="flex-1 bg-white border border-sand-300 hover:bg-sand-100 text-sand-800 font-medium rounded-lg px-5 py-4 transition inline-flex items-center justify-center gap-2">
+      <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l10 8-10 8V4z"/><path d="M19 5v14"/></svg>
+      Skip
+    </button>
+    <button id="completeBtn" class="flex-[2] bg-emerald-700 hover:bg-emerald-800 text-sand-50 font-semibold rounded-lg px-5 py-4 transition shadow-soft inline-flex items-center justify-center gap-2 text-lg">
+      <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      I made this duaa
+    </button>
+  </div>
+
+  <div id="captchaSlot" class="mt-4 hidden"></div>
+
+  <p class="text-xs text-sand-600 mt-6 text-center">
+    Honor system: please only mark complete after you have actually made the duaa.
+  </p>
+</div>
+
+<% if (turnstileSiteKey) { %>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" async defer></script>
+<% } %>
+
+<script>
+  (function () {
+    const app = document.getElementById('fulfill-app');
+    const max = parseInt(app.dataset.max, 10);
+    const completedEl = document.getElementById('completedCount');
+    const completeBtn = document.getElementById('completeBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const captchaSlot = document.getElementById('captchaSlot');
+    const siteKey = <%- JSON.stringify(turnstileSiteKey || '') %>;
+
+    let widgetId = null;
+    let pendingResolve = null;
+
+    window.onTurnstileLoad = function () {};
+
+    function showCaptcha() {
+      return new Promise(resolve => {
+        if (!siteKey) return resolve('');
+        captchaSlot.classList.remove('hidden');
+        captchaSlot.innerHTML = '<div id="cfWidget"></div>';
+        pendingResolve = resolve;
+        const render = () => {
+          if (!window.turnstile) return setTimeout(render, 200);
+          widgetId = window.turnstile.render('#cfWidget', {
+            sitekey: siteKey,
+            callback: token => {
+              const r = pendingResolve; pendingResolve = null;
+              captchaSlot.classList.add('hidden');
+              if (widgetId !== null) window.turnstile.remove(widgetId);
+              widgetId = null;
+              r(token);
+            }
+          });
+        };
+        render();
+      });
+    }
+
+    async function loadNext() {
+      window.location.href = '/hajj/fulfill';
+    }
+
+    async function complete() {
+      const id = document.getElementById('duaaCard').dataset.id;
+      const completedNow = parseInt(completedEl.textContent, 10);
+      const needsCaptcha = siteKey && completedNow > 0 && completedNow % 10 === 0;
+      let token = '';
+      if (needsCaptcha) {
+        completeBtn.disabled = true;
+        token = await showCaptcha();
+      }
+      completeBtn.disabled = true;
+      skipBtn.disabled = true;
+      try {
+        const res = await fetch('/hajj/complete/' + encodeURIComponent(id), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ captcha: token })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'failed');
+        completedEl.textContent = data.completed;
+      } catch (err) {
+        completeBtn.disabled = false;
+        skipBtn.disabled = false;
+        alert('Could not save. Please try again.');
+        return;
+      }
+      loadNext();
+    }
+
+    completeBtn.addEventListener('click', complete);
+    skipBtn.addEventListener('click', loadNext);
+  })();
+</script>
+
+<%- include('partials/foot') %>

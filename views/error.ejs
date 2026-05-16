@@ -1,0 +1,12 @@
+<%- include('partials/head', { title: 'Error ' + code }) %>
+
+<div class="max-w-md mx-auto text-center py-16">
+  <p class="font-arabic text-2xl text-sand-700 mb-2">إِنَّا لِلَّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ</p>
+  <h1 class="text-5xl font-semibold text-sand-800 mb-3"><%= code %></h1>
+  <p class="text-sand-700 mb-6"><%= message %></p>
+  <a href="/" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-sand-50 font-medium rounded-lg px-5 py-3 transition shadow-soft">
+    Go home
+  </a>
+</div>
+
+<%- include('partials/foot') %>

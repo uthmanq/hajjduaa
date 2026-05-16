@@ -1,0 +1,143 @@
+<%- include('partials/head', { title: 'The beauty of the Ummah' }) %>
+
+<div class="max-w-5xl mx-auto">
+  <div class="text-center mb-10">
+    <p class="font-arabic text-2xl text-emerald-800 mb-2">إِنَّمَا ٱلْمُؤْمِنُونَ إِخْوَةٌ</p>
+    <h1 class="text-3xl sm:text-4xl font-semibold mb-3">The beauty of the Ummah</h1>
+    <p class="text-sand-700">A snapshot of duaas shared and carried, across the world.</p>
+  </div>
+
+  <section class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+    <% const stats = [
+      { label: 'Duaas requested', value: totals.requests },
+      { label: 'Duaas carried', value: totals.completions },
+      { label: 'Pilgrims serving', value: totals.pilgrims },
+      { label: 'Countries represented', value: Math.max(totals.requester_countries, totals.pilgrim_countries) }
+    ]; %>
+    <% stats.forEach(s => { %>
+      <div class="bg-white border border-sand-200 rounded-2xl p-5 shadow-soft text-center">
+        <p class="text-3xl sm:text-4xl font-semibold text-emerald-800 tabular-nums"><%= s.value.toLocaleString() %></p>
+        <p class="text-sm text-sand-700 mt-1"><%= s.label %></p>
+      </div>
+    <% }) %>
+  </section>
+
+  <section class="grid sm:grid-cols-3 gap-4 mb-10">
+    <div class="sm:col-span-2 bg-white border border-sand-200 rounded-2xl p-5 shadow-soft">
+      <h2 class="font-semibold mb-3">Activity, last 30 days</h2>
+      <canvas id="dailyChart" height="120"></canvas>
+    </div>
+    <div class="bg-white border border-sand-200 rounded-2xl p-5 shadow-soft">
+      <h2 class="font-semibold mb-3">Status</h2>
+      <div class="space-y-3">
+        <div>
+          <div class="flex items-center justify-between text-sm mb-1">
+            <span class="text-sand-700">Carried</span>
+            <span class="font-semibold text-emerald-800"><%= totals.fulfilled.toLocaleString() %></span>
+          </div>
+          <% const total = Math.max(totals.requests, 1); %>
+          <div class="h-2 bg-sand-200 rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-700" style="width: <%= (totals.fulfilled / total * 100).toFixed(1) %>%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between text-sm mb-1">
+            <span class="text-sand-700">Awaiting</span>
+            <span class="font-semibold text-sand-800"><%= totals.unfulfilled.toLocaleString() %></span>
+          </div>
+          <div class="h-2 bg-sand-200 rounded-full overflow-hidden">
+            <div class="h-full bg-sand-500" style="width: <%= (totals.unfulfilled / total * 100).toFixed(1) %>%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid sm:grid-cols-2 gap-4">
+    <div class="bg-white border border-sand-200 rounded-2xl p-5 shadow-soft">
+      <h2 class="font-semibold mb-3">Top requester countries</h2>
+      <% if (requestsByCountry.length === 0) { %>
+        <p class="text-sand-600 text-sm">No data yet.</p>
+      <% } else { %>
+        <ul class="space-y-2">
+          <% const maxR = requestsByCountry[0].n; %>
+          <% requestsByCountry.forEach(c => { %>
+            <li>
+              <div class="flex items-center justify-between text-sm mb-1">
+                <span><%= c.name %></span>
+                <span class="font-semibold tabular-nums"><%= c.n %></span>
+              </div>
+              <div class="h-1.5 bg-sand-100 rounded-full overflow-hidden">
+                <div class="h-full bg-emerald-700/70" style="width: <%= (c.n / maxR * 100).toFixed(1) %>%"></div>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
+
+    <div class="bg-white border border-sand-200 rounded-2xl p-5 shadow-soft">
+      <h2 class="font-semibold mb-3">Top pilgrim countries</h2>
+      <% if (completionsByCountry.length === 0) { %>
+        <p class="text-sand-600 text-sm">No data yet.</p>
+      <% } else { %>
+        <ul class="space-y-2">
+          <% const maxP = completionsByCountry[0].n; %>
+          <% completionsByCountry.forEach(c => { %>
+            <li>
+              <div class="flex items-center justify-between text-sm mb-1">
+                <span><%= c.name %></span>
+                <span class="font-semibold tabular-nums"><%= c.n %></span>
+              </div>
+              <div class="h-1.5 bg-sand-100 rounded-full overflow-hidden">
+                <div class="h-full bg-sand-500" style="width: <%= (c.n / maxP * 100).toFixed(1) %>%"></div>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+  const daily = <%- JSON.stringify(daily) %>;
+  const ctx = document.getElementById('dailyChart');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: daily.map(d => d.day.slice(5)),
+      datasets: [
+        {
+          label: 'Requests',
+          data: daily.map(d => d.requests),
+          borderColor: '#0f6b53',
+          backgroundColor: 'rgba(15,107,83,0.15)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 0
+        },
+        {
+          label: 'Carried',
+          data: daily.map(d => d.completions),
+          borderColor: '#b78a45',
+          backgroundColor: 'rgba(183,138,69,0.12)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } },
+      scales: {
+        y: { beginAtZero: true, ticks: { precision: 0 } },
+        x: { ticks: { maxTicksLimit: 8 } }
+      }
+    }
+  });
+</script>
+
+<%- include('partials/foot') %>

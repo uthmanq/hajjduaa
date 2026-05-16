@@ -1,0 +1,43 @@
+<%- include('partials/head', { title: 'Duaa received' }) %>
+
+<div class="max-w-xl mx-auto text-center">
+  <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-700 text-sand-50 mb-6 shadow-soft">
+    <svg viewBox="0 0 24 24" class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  </div>
+  <p class="font-arabic text-2xl text-emerald-800 mb-2">جَزَاكَ ٱللَّٰهُ خَيْرًا</p>
+  <h1 class="text-3xl font-semibold mb-3">Your duaa has been received.</h1>
+  <p class="text-sand-700 mb-8">Save the number below — use it later to see if your duaa has been carried, and from where.</p>
+
+  <div class="bg-white border border-sand-200 rounded-2xl p-6 shadow-soft mb-8">
+    <p class="text-xs uppercase tracking-widest text-sand-600 mb-2">Your duaa number</p>
+    <div class="flex items-center justify-center gap-3">
+      <code id="number" class="text-2xl sm:text-3xl font-mono font-semibold text-emerald-800 tracking-wider"><%= number %></code>
+      <button
+        type="button"
+        id="copyBtn"
+        class="text-sm text-sand-700 border border-sand-300 rounded-lg px-3 py-1.5 hover:bg-sand-100 transition"
+        aria-label="Copy duaa number"
+      >Copy</button>
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-3 justify-center">
+    <a href="/duaa/<%= number %>" class="bg-emerald-700 hover:bg-emerald-800 text-sand-50 font-medium rounded-lg px-5 py-3 transition shadow-soft">View my duaa</a>
+    <a href="/" class="border border-sand-300 hover:bg-sand-100 rounded-lg px-5 py-3 transition">Back home</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    const text = document.getElementById('number').textContent.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copyBtn');
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => (btn.textContent = orig), 1500);
+    } catch (_) {}
+  });
+</script>
+
+<%- include('partials/foot') %>

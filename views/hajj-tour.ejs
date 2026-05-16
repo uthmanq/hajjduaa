@@ -1,0 +1,41 @@
+<%- include('partials/head', { title: 'Welcome, pilgrim' }) %>
+
+<div class="max-w-2xl mx-auto">
+  <a href="/" class="text-sm text-sand-700 inline-flex items-center gap-1 mb-4 hover:text-emerald-800">
+    <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+    Back
+  </a>
+  <p class="font-arabic text-2xl text-emerald-800 mb-2">لَبَّيْكَ ٱللَّٰهُمَّ لَبَّيْكَ</p>
+  <h1 class="text-3xl font-semibold mb-3">Before you begin…</h1>
+  <p class="text-sand-700 mb-8">A few things to know about how this works.</p>
+
+  <ol class="space-y-4 mb-10">
+    <li class="bg-white border border-sand-200 rounded-2xl p-5 flex gap-4">
+      <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-700 text-sand-50 inline-flex items-center justify-center font-semibold">1</span>
+      <div>
+        <h3 class="font-semibold mb-1">Duaas are made on an honor system.</h3>
+        <p class="text-sand-700 text-sm">No verification, no gatekeeping. Allah ﷻ sees you.</p>
+      </div>
+    </li>
+    <li class="bg-white border border-sand-200 rounded-2xl p-5 flex gap-4">
+      <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-700 text-sand-50 inline-flex items-center justify-center font-semibold">2</span>
+      <div>
+        <h3 class="font-semibold mb-1">Only complete a duaa if you are actually on Hajj.</h3>
+        <p class="text-sand-700 text-sm">Ideally while in a state of Umrah or making duaa at one of the sacred places.</p>
+      </div>
+    </li>
+    <li class="bg-white border border-sand-200 rounded-2xl p-5 flex gap-4">
+      <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-700 text-sand-50 inline-flex items-center justify-center font-semibold">3</span>
+      <div>
+        <h3 class="font-semibold mb-1">Press the green check to mark a duaa complete.</h3>
+        <p class="text-sand-700 text-sm">We'll show you the next one. You can carry up to <%= maxDuaas %> per session.</p>
+      </div>
+    </li>
+  </ol>
+
+  <a href="/hajj/setup" class="block w-full text-center bg-emerald-700 hover:bg-emerald-800 text-sand-50 font-medium rounded-lg px-5 py-3.5 transition shadow-soft text-lg">
+    I understand — continue
+  </a>
+</div>
+
+<%- include('partials/foot') %>

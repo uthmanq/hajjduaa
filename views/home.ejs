@@ -1,0 +1,62 @@
+<%- include('partials/head', { title: 'Welcome' }) %>
+
+<section class="text-center max-w-2xl mx-auto">
+  <p class="font-arabic text-3xl sm:text-4xl text-emerald-800 mb-2">بِسْمِ ٱللَّٰهِ</p>
+  <h1 class="text-3xl sm:text-5xl font-semibold tracking-tight text-sand-900 mb-4">
+    A bridge of duaas from the Ummah to the Haram.
+  </h1>
+  <p class="text-sand-700 text-lg leading-relaxed">
+    Share a duaa, fulfill one for a stranger, or simply witness the beauty of millions of hearts turning to Allah ﷻ.
+  </p>
+</section>
+
+<section class="mt-12">
+  <h2 class="text-center text-sm uppercase tracking-widest text-sand-600 mb-6">I am…</h2>
+  <div class="grid sm:grid-cols-3 gap-4 sm:gap-6">
+
+    <a href="/hajj" class="group bg-white border border-sand-200 hover:border-emerald-700 hover:shadow-soft transition rounded-2xl p-6 flex flex-col">
+      <div class="w-12 h-12 rounded-xl bg-emerald-700/10 text-emerald-800 flex items-center justify-center mb-4 group-hover:bg-emerald-700 group-hover:text-white transition">
+        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 14V3"/><path d="M4 3l11 4-11 4"/><path d="M20 21h-9"/></svg>
+      </div>
+      <h3 class="font-semibold text-lg mb-1">Going on Hajj</h3>
+      <p class="text-sand-700 text-sm flex-1">Carry the duaas of strangers with you to the Haram.</p>
+      <span class="mt-4 text-emerald-800 text-sm font-medium inline-flex items-center gap-1">
+        Start the tour
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <a href="/request" class="group bg-white border border-sand-200 hover:border-emerald-700 hover:shadow-soft transition rounded-2xl p-6 flex flex-col">
+      <div class="w-12 h-12 rounded-xl bg-emerald-700/10 text-emerald-800 flex items-center justify-center mb-4 group-hover:bg-emerald-700 group-hover:text-white transition">
+        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z" opacity="0"/><path d="M12 6v12"/><path d="M6 12h12"/></svg>
+      </div>
+      <h3 class="font-semibold text-lg mb-1">Requesting a duaa</h3>
+      <p class="text-sand-700 text-sm flex-1">Send your need with a pilgrim. Anonymous, no account needed.</p>
+      <span class="mt-4 text-emerald-800 text-sm font-medium inline-flex items-center gap-1">
+        Submit a duaa
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+    <a href="/stats" class="group bg-white border border-sand-200 hover:border-emerald-700 hover:shadow-soft transition rounded-2xl p-6 flex flex-col">
+      <div class="w-12 h-12 rounded-xl bg-emerald-700/10 text-emerald-800 flex items-center justify-center mb-4 group-hover:bg-emerald-700 group-hover:text-white transition">
+        <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
+      </div>
+      <h3 class="font-semibold text-lg mb-1">Just here to witness</h3>
+      <p class="text-sand-700 text-sm flex-1">See the beauty of the Ummah united in duaa, by the numbers.</p>
+      <span class="mt-4 text-emerald-800 text-sm font-medium inline-flex items-center gap-1">
+        See the community
+        <svg viewBox="0 0 24 24" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+  </div>
+</section>
+
+<section class="mt-12 bg-white/60 border border-sand-200 rounded-2xl p-6 text-center">
+  <p class="text-sand-700">
+    Already submitted? <a href="/search" class="text-emerald-800 font-medium underline-offset-2 hover:underline">Look up your duaa</a> to see if it has been carried.
+  </p>
+</section>
+
+<%- include('partials/foot') %>

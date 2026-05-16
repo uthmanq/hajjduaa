@@ -1,0 +1,28 @@
+<%- include('partials/head', { title: 'Thank you' }) %>
+
+<div class="max-w-xl mx-auto text-center">
+  <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-700 text-sand-50 mb-6 shadow-soft">
+    <svg viewBox="0 0 24 24" class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  </div>
+
+  <% if (reason === 'limit') { %>
+    <p class="font-arabic text-2xl text-emerald-800 mb-2">جَزَاكَ ٱللَّٰهُ خَيْرًا</p>
+    <h1 class="text-3xl font-semibold mb-3">You carried <%= sess.completed %> duaas.</h1>
+    <p class="text-sand-700 mb-8">
+      That's the limit for one session, so you can stay present with each one.
+      Come back tomorrow, in shaa Allah, for more.
+    </p>
+  <% } else { %>
+    <h1 class="text-3xl font-semibold mb-3">All caught up!</h1>
+    <p class="text-sand-700 mb-8">
+      There are no more duaas waiting for a pilgrim right now. Check back soon —
+      new requests come in every day.
+    </p>
+  <% } %>
+
+  <a href="/" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-sand-50 font-medium rounded-lg px-5 py-3 transition shadow-soft">
+    Back home
+  </a>
+</div>
+
+<%- include('partials/foot') %>
